@@ -16,8 +16,15 @@
 
 							<div class="top_bar_user">
 								<div class="user_icon"><img src="{% static 'homepage/images/user.svg' %}" alt=""></div>
-								<div><a href="#">Đăng Ký</a></div>
-								<div><a href="#">Đăng Nhập</a></div>
+								<div><a href="{% url 'core:register' %}">Đăng Ký</a></div>
+<!--								<div><a href="#">Đăng Nhập</a></div>-->
+								<div>
+									{% if user.username %}
+										<a href="{% url 'core:logout' %}">Thoát</a>
+									{% else %}
+										<a href="{% url 'core:login' %}">Đăng nhập</a>
+									{% endif %}
+								</div>
 							</div>
 						</div>
 					</div>
@@ -34,7 +41,7 @@
 					<!-- Logo -->
 					<div class="col-lg-2 col-sm-3 col-3 order-1">
 						<div class="logo_container">
-							<div class="logo"><a href="#">Mãn Vy</a></div>
+							<div class="logo"><a href="{% url 'core:index' %}">Mãn Vy</a></div>
 						</div>
 					</div>
 
@@ -81,7 +88,7 @@
 							<div class="cart">
 								<div class="cart_container d-flex flex-row align-items-center justify-content-end">
 									<div class="cart_icon">
-										<img src="images/cart.png" alt="">
+										<img src="{% static 'homepage/images/cart.png' %}" alt="">
 										<div class="cart_count"><span>10</span></div>
 									</div>
 									<div class="cart_content">
@@ -143,7 +150,7 @@
 
 							<div class="main_nav_menu ml-auto">
 								<ul class="standard_dropdown main_nav_dropdown">
-									<li><a href="#">Trang chủ<i class="fas fa-chevron-down"></i></a></li>
+									<li><a href="{% url 'core:index' %}">Trang chủ<i class="fas fa-chevron-down"></i></a></li>
 									<li class="hassubs">
 										<a href="#">Đang giảm giá<i class="fas fa-chevron-down"></i></a>
 										<ul>
@@ -177,7 +184,7 @@
 										</ul>
 									</li>
 
-									<li><a href="contact.html">Liên hệ<i class="fas fa-chevron-down"></i></a></li>
+									<li><a href="{% url 'core:contact' %}">Liên hệ<i class="fas fa-chevron-down"></i></a></li>
 								</ul>
 							</div>
 
@@ -215,7 +222,7 @@
 							<ul class="page_menu_nav">
 								
 								<li class="page_menu_item">
-									<a href="#">Trang chủ<i class="fa fa-angle-down"></i></a>
+									<a href="{% url 'core:index' %}">Trang chủ<i class="fa fa-angle-down"></i></a>
 								</li>
 								<li class="page_menu_item has-children">
 									<a href="#">Đang giảm giá<i class="fa fa-angle-down"></i></a>
@@ -243,7 +250,7 @@
 										<li><a href="#">Dell<i class="fa fa-angle-down"></i></a></li>
 									</ul>
 								</li>
-								<li class="page_menu_item"><a href="contact.html">Liên hệ<i class="fa fa-angle-down"></i></a></li>
+								<li class="page_menu_item"><a href="{% url 'core:contact' %}">Liên hệ<i class="fa fa-angle-down"></i></a></li>
 							</ul>
 
 							<div class="menu_contact">

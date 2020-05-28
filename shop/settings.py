@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'product',
     'user',
     'core',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [
@@ -118,6 +119,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+USE_THOUSAND_SEPARATOR = True
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
@@ -128,4 +131,11 @@ AUTH_USER_MODEL = 'user.CustomerUser'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static'),
+]
+
+MEDIA_ROOT = os.path.join(BASE_DIR, '')
+MEDIA_URL = '/'
+
+FORMAT_MODULE_PATH = [
+    'shop.formats',
 ]

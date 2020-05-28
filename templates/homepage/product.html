@@ -1,0 +1,136 @@
+{% extends 'homepage/base.html' %}
+{% load static %}
+
+{% block cssblock%}
+<link rel="stylesheet" type="text/css" href="{% static 'homepage/styles/bootstrap4/bootstrap.min.css' %}">
+<link href="{% static 'homepage/plugins/fontawesome-free-5.0.1/css/fontawesome-all.css' %}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="{% static 'homepage/plugins/OwlCarousel2-2.2.1/owl.carousel.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'homepage/plugins/OwlCarousel2-2.2.1/owl.theme.default.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'homepage/plugins/OwlCarousel2-2.2.1/animate.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'homepage/styles/product_styles.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'homepage/styles/product_responsive.css' %}">
+{% endblock%}
+{% block content%}
+	<!-- Single Product -->
+<div>
+	<div class="single_product">
+		<div class="container">
+			<div class="row">
+
+				<!-- Images -->
+				<div class="col-lg-2 order-lg-1 order-2">
+					<ul class="image_list">
+						<li data-image="{{ product.img.url }}"><img src="{{ product.img.url }}" alt=""></li>
+						<li data-image="{{ imgs.0.img.url }}"><img src="{{ imgs.0.img.url }}" alt=""></li>
+						<li data-image="{{ imgs.1.img.url }}"><img src="{{ imgs.1.img.url }}" alt=""></li>
+					</ul>
+				</div>
+
+				<!-- Selected Image -->
+				<div class="col-lg-5 order-lg-2 order-1">
+					<div class="image_selected"><img src="{{ product.img.url }}" alt=""></div>
+				</div>
+
+				<!-- Description -->
+				<div class="col-lg-5 order-3">
+					<div class="product_description">
+						<div class="product_category">{{ product.category.title }}</div>
+						<div class="product_name">{{ product.title }}</div>
+						<div class="product_text"><p>{{ product.description }}</p></div>
+						<div class="order_info d-flex flex-row">
+							<form action="#">
+								<div class="clearfix" style="z-index: 1000;">
+
+									<!-- Product Quantity -->
+									<div class="product_quantity clearfix">
+										<span>Số lượng: </span>
+										<input id="quantity_input" type="text" pattern="[0-9]*" value="1">
+										<div class="quantity_buttons">
+											<div id="quantity_inc_button" class="quantity_inc quantity_control"><i class="fas fa-chevron-up"></i></div>
+											<div id="quantity_dec_button" class="quantity_dec quantity_control"><i class="fas fa-chevron-down"></i></div>
+										</div>
+									</div>
+
+									<!-- Product Color -->
+									<ul class="product_color">
+										<li>
+											<span>Màu: </span>
+											<div class="color_mark_container"><div id="selected_color" class="color_mark"></div></div>
+											<div class="color_dropdown_button"><i class="fas fa-chevron-down"></i></div>
+
+											<ul class="color_list">
+												<li><div class="color_mark" style="background: #999999;"></div></li>
+												<li><div class="color_mark" style="background: #b19c83;"></div></li>
+												<li><div class="color_mark" style="background: #000000;"></div></li>
+											</ul>
+										</li>
+									</ul>
+
+								</div>
+								{% if product.discount %}
+								<div class="product_price" style="color: red">{{ product.actual_price }}<sup>đ</sup></div>
+								<div style="text-decoration: line-through">{{ product.price }}<sup>đ</sup></div>
+								{% else %}
+								<div class="product_price">{{ product.price }}<sup>đ</sup></div>
+								{% endif %}
+								<div class="button_container">
+									<button type="button" class="button cart_button">Thêm vào giỏ hàng</button>
+									<div class="product_fav"><i class="fas fa-heart"></i></div>
+								</div>
+								
+							</form>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+	<!-- Comment -->
+	<div class="container">
+		{% for comment in comments %}
+		<ul>
+			<li>
+				<div class="check_buyer">
+						<span  style="font-weight: bold;margin-bottom: 5px;display: inline-block;">ABC</span>
+						<i><img src="{% static 'homepage/images/tick.png' %}" alt="" style="background-position: -220px -82px;width: 13px;height: 13px;margin: -4px 4px 0 7px;"></i>
+						<label style="cursor: pointer; color: #2ba832; font-size: 13px;">Đã mua hàng tại Mãn Vy Shop</label>
+					</div>
+				<div class="cmt_content" style="margin-top: -3px;font-style: normal;line-height: 1.5;">{{ comment.comment }}</div>
+				<br/>
+			</li>
+		</ul>
+		{% endfor %}
+
+		{% if comments %}
+		<form action="{% url 'core:product_comments' product.id %}" method="post">
+		{% csrf_token %}
+		<input type="submit" value="Xem tất cả bình luận về sản phẩm > " style="cursor: pointer;display: inline-block;padding: 7px 20px;color: #288ad6;border: solid 1px #288ad6;border-radius: 3px;text-align: center;box-sizing: border-box;margin: 0 0 20px;">
+		</form>
+		{% endif %}
+
+			<form action="{% url 'core:add_comment' product.id %}" method="get" style="height:200px; width:300px; margin:auto;">
+				{% csrf_token %}
+				<textarea placeholder="Thêm bình luận công khai..." style="height:100px; width:300px;resize:none" name="comment"></textarea>
+				<input type="checkbox" name="is_buyer"><span style="margin-left:10px">Đã mua hàng</span>
+				<input type="submit" value="Chia sẻ" style="background:#DFB1B1;cursor: pointer;display: inline-block;padding: 7px 20px;color: #F9EFEF;border: solid 1px #DFB1B1;border-radius: 3px;text-align: center;box-sizing: border-box;margin-left:211px;">
+			</form>
+	</div>
+</div>
+
+{% endblock %}
+{% block jsblock%}
+<script src="{% static 'homepage/js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'homepage/styles/bootstrap4/popper.js' %}"></script>
+<script src="{% static 'homepage/styles/bootstrap4/bootstrap.min.js' %}"></script>
+<script src="{% static 'homepage/plugins/greensock/TweenMax.min.js' %}"></script>
+<script src="{% static 'homepage/plugins/greensock/TimelineMax.min.js' %}"></script>
+<script src="{% static 'homepage/plugins/scrollmagic/ScrollMagic.min.js' %}"></script>
+<script src="{% static 'homepage/plugins/greensock/animation.gsap.min.js' %}"></script>
+<script src="{% static 'homepage/plugins/greensock/ScrollToPlugin.min.js' %}"></script>
+<script src="{% static 'homepage/plugins/OwlCarousel2-2.2.1/owl.carousel.js' %}"></script>
+<script src="{% static 'homepage/plugins/easing/easing.js' %}"></script>
+<script src="{% static 'homepage/js/product_custom.js' %}"></script>
+{% endblock%}
