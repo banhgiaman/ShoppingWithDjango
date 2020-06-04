@@ -20,6 +20,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(next_page='/'), name='logout'),
 
     path('statistic/', plot_all_product, name='statistic'),
+    path('statistic_with_product/', plot_product, name='statistic_with_product'),
 ]
 
 urlpatterns += [

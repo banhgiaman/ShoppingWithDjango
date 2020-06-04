@@ -16,7 +16,6 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import PCA
 from sklearn.mixture import GaussianMixture
 from sklearn.cluster import KMeans, MiniBatchKMeans, DBSCAN
-import json
 
 
 def IndexView(request):
@@ -42,6 +41,7 @@ def vectorize_comments(cmts):
 def plot_all_product(request):
     if request.user.is_superuser:
         cmts = Comment.objects.all()
+        products = Product.objects.all()
         cmts_product = []
         for cmt in cmts:
             cmts_product.append({'cmt': cmt.comment, 'product': cmt.product.title})
@@ -192,10 +192,10 @@ def plot_all_product(request):
         mpld3.plugins.connect(fig, tooltip)
         mpld3.plugins.connect(fig, tooltip2)
 
-        html_fig_minikmeans = mpld3.fig_to_html(fig, template_type='general')
+        html_fig_db = mpld3.fig_to_html(fig, template_type='general')
         return render(request, 'homepage/statistic.html',
-                      {'title': 'Thống kê', 'div_figure_gmm': html_fig_gmm, 'div_figure_kmeans': html_fig_kmeans,
-                       'div_figure_minikmeans': html_fig_minikmeans})
+                      {'title': 'Thống kê', 'products': products, 'div_figure_gmm': html_fig_gmm, 'div_figure_kmeans': html_fig_kmeans,
+                       'div_figure_minikmeans': html_fig_minikmeans, 'div_figure_db': html_fig_db})
 
     else:
         return render(request, 'homepage/statistic.html', {'title': 'Thống kê'})
@@ -279,123 +279,218 @@ def Register_Success(request):
 
 
 def plot_product(request):
-    product_id = request.GET['dropdown']
-    with open('cmts_product.txt') as f:
-        cmts_product = json.load(f)
-    with open('data-points.txt', mode='br') as f:
-        X = f.read()
-    with open('gmm.txt', mode='br') as f:
-        gmm = f.read()
-    with open('kmeans.txt', mode='br') as f:
-        kmeans = f.read()
-    with open('minikmeans.txt', mode='br') as f:
-        minikmeans = f.read()
+    if request.user.is_superuser and request.method == 'POST':
+        product_id = int(request.POST['dropdown'])
+        cmts = Comment.objects.all()
+        products = Product.objects.all()
+        cmts_product = []
+        for cmt in cmts:
+            cmts_product.append({'cmt': cmt.comment, 'product': cmt.product.title, 'product_id': cmt.product.id})
 
-    X0_minikmeans = []
-    X1_minikmeans = []
-    cmt0 = []
-    cmt1 = []
-    for idx, item in enumerate(cmts_product):
-        if cmts_product['id'] == product_id:
-            if minikmeans[idx] == 0:
-                X0_minikmeans.append(X[idx])
-                cmt0.append('<p><h5>Bình luận: ' + cmts_product[idx]['cmt'] + '</h3><p><h5>Sản phẩm: ' + cmts_product[idx]['product'] + '</h3>')
-            else:
-                X1_minikmeans.append(X[idx])
-                cmt1.append('<p><h5>Bình luận: ' + cmts_product[idx]['cmt'] + '</h3><p><h5>Sản phẩm: ' + cmts_product[idx]['product'] + '</h3>')
+        df = pd.DataFrame(cmts_product)
+        vector = vectorize_comments(df.cmt)
 
-    fig, ax = plt.subplots()
-    scatter = ax.scatter(X0_minikmeans[:, 0],
-                         X0_minikmeans[:, 1],
-                         c=['#243B0B'] * len(X0_minikmeans),
-                         alpha=0.3,
-                         cmap=plt.cm.jet)
+        # reduce dimensions
+        X = PCA(n_components=2).fit_transform(vector.toarray())
 
-    scatter2 = ax.scatter(X1_minikmeans[:, 0],
-                          X1_minikmeans[:, 1],
-                          c=['#B40404'] * len(X1_minikmeans),
-                          marker='^',
-                          alpha=0.3,
-                          cmap=plt.cm.jet)
+        # GMM alg
+        gmm = GaussianMixture(n_components=2, random_state=0).fit_predict(X)
 
-    ax.grid(color='white', linestyle='solid')
-    ax.set_title("Kết quả thu được từ thuật toán Mini-Batch K-Means Clustering", size=20)
-    tooltip = mpld3.plugins.PointHTMLTooltip(scatter, labels=cmt0)
-    tooltip2 = mpld3.plugins.PointHTMLTooltip(scatter2, labels=cmt1)
-    mpld3.plugins.connect(fig, tooltip)
-    mpld3.plugins.connect(fig, tooltip2)
-    html_fig_minikmeans = mpld3.fig_to_html(fig, template_type='general')
+        X0_gmm = []
+        X1_gmm = []
+        cmt0 = []
+        cmt1 = []
+        for idx, item in enumerate(cmts_product):
+            if cmts_product[idx]['product_id'] == product_id:
+                if gmm[idx] == 0:
+                    X0_gmm.append(X[idx])
+                    cmt0.append(
+                        '<p><h5>Bình luận: ' + cmts_product[idx]['cmt'] + '</h3><p><h5>Sản phẩm: ' + cmts_product[idx][
+                            'product'] + '</h3>')
+                else:
+                    X1_gmm.append(X[idx])
+                    cmt1.append(
+                        '<p><h5>Bình luận: ' + cmts_product[idx]['cmt'] + '</h3><p><h5>Sản phẩm: ' + cmts_product[idx][
+                            'product'] + '</h3>')
+        X0_gmm = np.array(X0_gmm)
+        X1_gmm = np.array(X1_gmm)
+
+        fig, ax = plt.subplots()
+        if len(X0_gmm) > 0:
+            scatter = ax.scatter(X0_gmm[:, 0],
+                                 X0_gmm[:, 1],
+                                 c=['#243B0B'] * len(X0_gmm),
+                                 alpha=0.3,
+                                 cmap=plt.cm.jet)
+            tooltip = mpld3.plugins.PointHTMLTooltip(scatter, labels=cmt0)
+            mpld3.plugins.connect(fig, tooltip)
+
+        if len(X1_gmm) > 0:
+            scatter2 = ax.scatter(X1_gmm[:, 0],
+                                  X1_gmm[:, 1],
+                                  c=['#B40404'] * len(X1_gmm),
+                                  marker='^',
+                                  alpha=0.3,
+                                  cmap=plt.cm.jet)
+            tooltip2 = mpld3.plugins.PointHTMLTooltip(scatter2, labels=cmt1)
+            mpld3.plugins.connect(fig, tooltip2)
+
+        ax.grid(color='white', linestyle='solid')
+        ax.set_title("Kết quả thu được từ thuật toán GMM", size=20)
 
 
-    X0_kmeans = []
-    X1_kmeans = []
-    cmt0 = []
-    cmt1 = []
-    for idx, item in enumerate(cmts_product):
-        if cmts_product['id'] == product_id:
-            if kmeans[idx] == 0:
-                X0_kmeans.append(X[idx])
-                cmt0.append('<p><h5>Bình luận: ' + cmts_product[idx]['cmt'] + '</h3><p><h5>Sản phẩm: ' + cmts_product[idx]['product'] + '</h3>')
-            else:
-                X1_kmeans.append(X[idx])
-                cmt1.append('<p><h5>Bình luận: ' + cmts_product[idx]['cmt'] + '</h3><p><h5>Sản phẩm: ' + cmts_product[idx]['product'] + '</h3>')
+        html_fig_gmm = mpld3.fig_to_html(fig, template_type='general')
 
-    fig, ax = plt.subplots()
-    scatter = ax.scatter(X0_kmeans[:, 0],
-                         X0_kmeans[:, 1],
-                         c=['#243B0B'] * len(X0_kmeans),
-                         alpha=0.3,
-                         cmap=plt.cm.jet)
+        # K-means clustering alg
+        kmeans = KMeans(n_clusters=2, random_state=0).fit_predict(vector)
+        X0_kmeans = []
+        X1_kmeans = []
+        cmt0 = []
+        cmt1 = []
+        for idx, item in enumerate(cmts_product):
+            if cmts_product[idx]['product_id'] == product_id:
+                if kmeans[idx] == 0:
+                    X0_kmeans.append(X[idx])
+                    cmt0.append(
+                        '<p><h5>Bình luận: ' + cmts_product[idx]['cmt'] + '</h3><p><h5>Sản phẩm: ' + cmts_product[idx][
+                            'product'] + '</h3>')
+                else:
+                    X1_kmeans.append(X[idx])
+                    cmt1.append(
+                        '<p><h5>Bình luận: ' + cmts_product[idx]['cmt'] + '</h3><p><h5>Sản phẩm: ' + cmts_product[idx][
+                            'product'] + '</h3>')
 
-    scatter2 = ax.scatter(X1_kmeans[:, 0],
-                          X1_kmeans[:, 1],
-                          c=['#B40404'] * len(X1_kmeans),
-                          marker='^',
-                          alpha=0.3,
-                          cmap=plt.cm.jet)
+        X0_kmeans = np.array(X0_kmeans)
+        X1_kmeans = np.array(X1_kmeans)
+        fig, ax = plt.subplots()
 
-    ax.grid(color='white', linestyle='solid')
-    ax.set_title("Kết quả thu được từ thuật toán K-Means Clustering", size=20)
-    tooltip = mpld3.plugins.PointHTMLTooltip(scatter, labels=cmt0)
-    tooltip2 = mpld3.plugins.PointHTMLTooltip(scatter2, labels=cmt1)
-    mpld3.plugins.connect(fig, tooltip)
-    mpld3.plugins.connect(fig, tooltip2)
-    html_fig_kmeans = mpld3.fig_to_html(fig, template_type='general')
+        if len(X0_kmeans) > 0:
+            scatter = ax.scatter(X0_kmeans[:, 0],
+                                 X0_kmeans[:, 1],
+                                 c=['#243B0B'] * len(X0_kmeans),
+                                 alpha=0.3,
+                                 cmap=plt.cm.jet)
+            tooltip = mpld3.plugins.PointHTMLTooltip(scatter, labels=cmt0)
+            mpld3.plugins.connect(fig, tooltip)
 
-    X0_gmm = []
-    X1_gmm = []
-    cmt0 = []
-    cmt1 = []
-    for idx, item in enumerate(cmts_product):
-        if cmts_product['id'] == product_id:
-            if gmm[idx] == 0:
-                X0_gmm.append(X[idx])
-                cmt0.append('<p><h5>Bình luận: ' + cmts_product[idx]['cmt'] + '</h3><p><h5>Sản phẩm: ' + cmts_product[idx]['product'] + '</h3>')
-            else:
-                X1_gmm.append(X[idx])
-                cmt1.append('<p><h5>Bình luận: ' + cmts_product[idx]['cmt'] + '</h3><p><h5>Sản phẩm: ' + cmts_product[idx]['product'] + '</h3>')
+        if len(X1_kmeans) > 0:
+            scatter2 = ax.scatter(X1_kmeans[:, 0],
+                                  X1_kmeans[:, 1],
+                                  c=['#B40404'] * len(X1_kmeans),
+                                  marker='^',
+                                  alpha=0.3,
+                                  cmap=plt.cm.jet)
+            tooltip2 = mpld3.plugins.PointHTMLTooltip(scatter2, labels=cmt1)
+            mpld3.plugins.connect(fig, tooltip2)
 
-    fig, ax = plt.subplots()
-    scatter = ax.scatter(X0_gmm[:, 0],
-                         X0_gmm[:, 1],
-                         c=['#243B0B'] * len(X0_gmm),
-                         alpha=0.3,
-                         cmap=plt.cm.jet)
+        ax.grid(color='white', linestyle='solid')
+        ax.set_title("Kết quả thu được từ thuật toán K-Means Clustering", size=20)
 
-    scatter2 = ax.scatter(X1_gmm[:, 0],
-                          X1_gmm[:, 1],
-                          c=['#B40404'] * len(X1_gmm),
-                          marker='^',
-                          alpha=0.3,
-                          cmap=plt.cm.jet)
+        html_fig_kmeans = mpld3.fig_to_html(fig, template_type='general')
 
-    ax.grid(color='white', linestyle='solid')
-    ax.set_title("Kết quả thu được từ thuật toán GMM", size=20)
-    tooltip = mpld3.plugins.PointHTMLTooltip(scatter, labels=cmt0)
-    tooltip2 = mpld3.plugins.PointHTMLTooltip(scatter2, labels=cmt1)
-    mpld3.plugins.connect(fig, tooltip)
-    mpld3.plugins.connect(fig, tooltip2)
-    html_fig_gmm = mpld3.fig_to_html(fig, template_type='general')
+        # MiniBatch K-means clustering alg
+        minikmeans = MiniBatchKMeans(n_clusters=2, random_state=0).fit_predict(vector)
+        X0_minikmeans = []
+        X1_minikmeans = []
+        cmt0 = []
+        cmt1 = []
+        for idx, item in enumerate(cmts_product):
+            if cmts_product[idx]['product_id'] == product_id:
+                if minikmeans[idx] == 0:
+                    X0_minikmeans.append(X[idx])
+                    cmt0.append(
+                        '<p><h5>Bình luận: ' + cmts_product[idx]['cmt'] + '</h3><p><h5>Sản phẩm: ' + cmts_product[idx][
+                            'product'] + '</h3>')
+                else:
+                    X1_minikmeans.append(X[idx])
+                    cmt1.append(
+                        '<p><h5>Bình luận: ' + cmts_product[idx]['cmt'] + '</h3><p><h5>Sản phẩm: ' + cmts_product[idx][
+                            'product'] + '</h3>')
 
-    render(request, 'homepage/statistic_product.html', {'title': 'Thống kê', 'div_figure_gmm': html_fig_gmm, 'div_figure_kmeans': html_fig_kmeans,
-                       'div_figure_minikmeans': html_fig_minikmeans})
+        X0_minikmeans = np.array(X0_minikmeans)
+        X1_minikmeans = np.array(X1_minikmeans)
+
+        fig, ax = plt.subplots()
+        if len(X0_minikmeans) > 0:
+            scatter = ax.scatter(X0_minikmeans[:, 0],
+                                 X0_minikmeans[:, 1],
+                                 c=['#243B0B'] * len(X0_minikmeans),
+                                 alpha=0.3,
+                                 cmap=plt.cm.jet)
+            tooltip = mpld3.plugins.PointHTMLTooltip(scatter, labels=cmt0)
+            mpld3.plugins.connect(fig, tooltip)
+
+        if len(X1_minikmeans) > 0:
+            scatter2 = ax.scatter(X1_minikmeans[:, 0],
+                                  X1_minikmeans[:, 1],
+                                  c=['#B40404'] * len(X1_minikmeans),
+                                  marker='^',
+                                  alpha=0.3,
+                                  cmap=plt.cm.jet)
+            tooltip2 = mpld3.plugins.PointHTMLTooltip(scatter2, labels=cmt1)
+            mpld3.plugins.connect(fig, tooltip2)
+
+        ax.grid(color='white', linestyle='solid')
+        ax.set_title("Kết quả thu được từ thuật toán Mini-Batch K-Means Clustering", size=20)
+
+        html_fig_minikmeans = mpld3.fig_to_html(fig, template_type='general')
+
+        ax.grid(color='white', linestyle='solid')
+        ax.set_title("Kết quả thu được từ thuật toán Mini-Batch K-Means Clustering", size=20)
+
+        # DBSCAN alg
+        db = DBSCAN(eps=1.2, min_samples=30).fit_predict(vector)
+        X0_db = []
+        X1_db = []
+        cmt0 = []
+        cmt1 = []
+        for idx, item in enumerate(cmts_product):
+            if cmts_product[idx]['product_id'] == product_id:
+                if db[idx] == 0:
+                    X0_db.append(X[idx])
+                    cmt0.append(
+                        '<p><h5>Bình luận: ' + cmts_product[idx]['cmt'] + '</h3><p><h5>Sản phẩm: ' + cmts_product[idx][
+                            'product'] + '</h3>')
+                else:
+                    X1_db.append(X[idx])
+                    cmt1.append(
+                        '<p><h5>Bình luận: ' + cmts_product[idx]['cmt'] + '</h3><p><h5>Sản phẩm: ' + cmts_product[idx][
+                            'product'] + '</h3>')
+
+        X0_db = np.array(X0_db)
+        X1_db = np.array(X1_db)
+        fig, ax = plt.subplots()
+
+        if len(X0_db) > 0:
+            scatter = ax.scatter(X0_db[:, 0],
+                                 X0_db[:, 1],
+                                 c=['#243B0B'] * len(X0_db),
+                                 alpha=0.3,
+                                 cmap=plt.cm.jet)
+            tooltip = mpld3.plugins.PointHTMLTooltip(scatter, labels=cmt0)
+            mpld3.plugins.connect(fig, tooltip)
+
+        if len(X1_db) > 0:
+            scatter2 = ax.scatter(X1_db[:, 0],
+                                  X1_db[:, 1],
+                                  c=['#B40404'] * len(X1_db),
+                                  marker='^',
+                                  alpha=0.3,
+                                  cmap=plt.cm.jet)
+            tooltip2 = mpld3.plugins.PointHTMLTooltip(scatter2, labels=cmt1)
+
+            mpld3.plugins.connect(fig, tooltip2)
+
+        ax.grid(color='white', linestyle='solid')
+        ax.set_title("Kết quả thu được từ thuật toán DBSCAN", size=20)
+
+        html_fig_db = mpld3.fig_to_html(fig, template_type='general')
+
+
+        return render(request, 'homepage/statistic_with_product.html',
+                      {'title': 'Thống kê', 'products': products, 'div_figure_gmm': html_fig_gmm, 'div_figure_kmeans': html_fig_kmeans,
+                       'div_figure_minikmeans': html_fig_minikmeans, 'div_figure_db': html_fig_db})
+
+
+    else:
+        return render(request, 'homepage/statistic.html', {'title': 'Thống kê'})
