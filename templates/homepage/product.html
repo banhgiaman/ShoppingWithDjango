@@ -10,7 +10,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'homepage/styles/product_styles.css' %}">
 <link rel="stylesheet" type="text/css" href="{% static 'homepage/styles/product_responsive.css' %}">
 {% endblock%}
-{% block content%}
+{% block content %}
 	<!-- Single Product -->
 <div>
 	<div class="single_product">
@@ -21,8 +21,8 @@
 				<div class="col-lg-2 order-lg-1 order-2">
 					<ul class="image_list">
 						<li data-image="{{ product.img.url }}"><img src="{{ product.img.url }}" alt=""></li>
-						<li data-image="{{ imgs.0.img.url }}"><img src="{{ imgs.0.img.url }}" alt=""></li>
-						<li data-image="{{ imgs.1.img.url }}"><img src="{{ imgs.1.img.url }}" alt=""></li>
+						<li data-image="{{ imgs.0.img.url }}"><img src="{{ imgs.0.img.url }}" alt="đang cập nhật"></li>
+						<li data-image="{{ imgs.1.img.url }}"><img src="{{ imgs.1.img.url }}" alt="đang cập nhật"></li>
 					</ul>
 				</div>
 
@@ -121,7 +121,7 @@
 </div>
 
 {% endblock %}
-{% block jsblock%}
+{% block jsblock %}
 <script src="{% static 'homepage/js/jquery-3.3.1.min.js' %}"></script>
 <script src="{% static 'homepage/styles/bootstrap4/popper.js' %}"></script>
 <script src="{% static 'homepage/styles/bootstrap4/bootstrap.min.js' %}"></script>
@@ -133,4 +133,4 @@
 <script src="{% static 'homepage/plugins/OwlCarousel2-2.2.1/owl.carousel.js' %}"></script>
 <script src="{% static 'homepage/plugins/easing/easing.js' %}"></script>
 <script src="{% static 'homepage/js/product_custom.js' %}"></script>
-{% endblock%}
+{% endblock %}

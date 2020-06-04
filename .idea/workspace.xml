@@ -6,15 +6,84 @@
       <change beforePath="$PROJECT_DIR$/core/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/core/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/core/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/product/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/product/admin.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/product/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/product/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shop/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/shop/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shop/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/shop/urls.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/homepage/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/homepage/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/homepage/footer.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/homepage/footer.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/adv_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/adv_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/adv_3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/best_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/best_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/best_3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/best_4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/best_5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/best_6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/blog_1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/blog_2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/blog_3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/blog_4.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/blog_5.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/blog_6.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/blog_7.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/blog_8.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/blog_9.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/blog_single_background.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/deals.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/deals.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/deals2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/featured_1.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/featured_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/featured_3.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/featured_4.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/featured_5.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/featured_6.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/featured_7.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/featured_8.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/iphone-11-128gb.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/iphone-11-256gb.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/iphone-11-do-2-1-org.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/iphone-11-do-3-1-org.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/iphone-11-pro-256gb.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/iphone-11-pro-max-256gb.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/iphone-11-pro-max-512gb.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/iphone-11-pro-max-black.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/iphone-11-pro-max.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/iphone-11-red.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/iphone-xs-max-gold.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/new_1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/new_10.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/new_2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/new_3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/new_4.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/new_5.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/new_6.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/new_7.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/new_8.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/new_9.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/new_single.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/review_1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/review_2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/review_3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/shop_1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/shop_2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/shopping_cart.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/single_1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/single_2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/single_3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/single_4.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/tivi-sony.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/trends_1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/trends_2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/trends_3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/user.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/user.svg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/view_1.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/view_2.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/view_3.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/view_4.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/view_5.jpg" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/homepage/images/view_6.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/homepage/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/homepage/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/homepage/navbar.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/homepage/navbar.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/user/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/user/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/homepage/product.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/homepage/product.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,8 +93,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="HTML File" />
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -41,17 +110,20 @@
   <component name="PropertiesComponent">
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/templates/homepage" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/core" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\ADMIN\PycharmProjects\e-comerce\core" />
       <recent name="C:\Users\ADMIN\PycharmProjects\e-comerce\templates\homepage" />
       <recent name="C:\Users\ADMIN\PycharmProjects\e-comerce\static\homepage\images" />
       <recent name="C:\Users\ADMIN\PycharmProjects\e-comerce\static\homepage" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\ADMIN\PycharmProjects\e-comerce\static\homepage\images" />
+      <recent name="C:\Users\ADMIN\PycharmProjects\e-comerce\static" />
       <recent name="C:\Users\ADMIN\PycharmProjects\e-comerce\templates\homepage" />
+      <recent name="C:\Users\ADMIN\PycharmProjects\e-comerce\shop\templates" />
     </key>
   </component>
   <component name="SvnConfiguration">

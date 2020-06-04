@@ -21,7 +21,8 @@ class Product(models.Model):
     is_new = models.BooleanField(default=False)
     img = models.ImageField(upload_to='static/homepage/images')
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
-    actual_price = models.IntegerField(null=True)
+    actual_price = models.IntegerField(null=True, blank=True)
+    is_deal = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title

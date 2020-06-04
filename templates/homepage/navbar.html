@@ -15,14 +15,24 @@
 						<div class="top_bar_content ml-auto">
 
 							<div class="top_bar_user">
-								<div class="user_icon"><img src="{% static 'homepage/images/user.svg' %}" alt=""></div>
+
+								<div>
+									{% if user.is_superuser %}
+									<div class="user_icon"><img src="{% static 'homepage/images/statistic.png' %}" alt=""></div>
+									<div><a href="{% url 'core:statistic' %}">Xem thống kê </a></div>
+									{% endif %}
+								</div>
+
 								<div><a href="{% url 'core:register' %}">Đăng Ký</a></div>
 <!--								<div><a href="#">Đăng Nhập</a></div>-->
 								<div>
+
 									{% if user.username %}
-										<a href="{% url 'core:logout' %}">Thoát</a>
+
+									<div><a href="{% url 'core:logout' %}">Thoát</a></div>
 									{% else %}
-										<a href="{% url 'core:login' %}">Đăng nhập</a>
+
+									<div><a href="{% url 'core:login' %}">Đăng nhập</a></div>
 									{% endif %}
 								</div>
 							</div>
